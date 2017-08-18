@@ -1,12 +1,5 @@
 import re # Re is a module for string searching
 
-def file(file): # function for opening the file. Turned into a function for unit testing purposes
-  file = open(file, 'r')
-  lines = file.readlines()
-  return lines
-
-lines = file("dictionary.txt") # Using the file function to read the file.
-
 def same(item, target):
   return len([c for (c, t) in zip(item, target) if c == t]) # checks tuples and uses the zip function to return the list of tuples
 
@@ -22,6 +15,7 @@ def find(word, words, seen, target, path): # Function for checking if letters in
   if len(list) == 0:
     return False
   list = sorted([(same(w, target), w) for w in list]) # Goes through the list of tuples in ascending order
+  list.reverse() #Goes through and checks the list in reverse
   for (match, item) in list:
     if match >= len(target) - 1: # checks if match is either greater or equal than the len target minus one character
       if match == len(target) - 1: # Checks if match length is the same and appents item into path and returns true.
@@ -33,6 +27,13 @@ def find(word, words, seen, target, path): # Function for checking if letters in
     if find(item, words, seen, target, path): # if any string values are found to match return true
       return True
     path.pop() # If no string values match, remove it from path
+
+def file(file): # function for opening the file. Turned into a function for unit testing purposes
+  file = open(file, 'r')
+  lines = file.readlines()
+  return lines
+
+lines = file("dictionary.txt") # Using the file function to read the file.
 
 while True: # This is used or checking if the users input is correct
   start = input("Enter start word:")
@@ -49,7 +50,7 @@ while True: # This is used or checking if the users input is correct
       word = line.rstrip()
       if len(word) == len(start):
         words.append(word)
-      break
+    break
   else:
     print("Error: Word sizes dont match")
 
