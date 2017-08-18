@@ -1,4 +1,12 @@
 import re # Re is a module for string searching
+
+def file(file): # function for opening the file. Turned into a function for unit testing purposes
+  file = open(file, 'r')
+  lines = file.readlines()
+  return lines
+
+lines = file("dictionary.txt") # Using the file function to read the file.
+
 def same(item, target):
   return len([c for (c, t) in zip(item, target) if c == t]) # checks tuples and uses the zip function to return the list of tuples
 
@@ -26,27 +34,29 @@ def find(word, words, seen, target, path): # Function for checking if letters in
       return True
     path.pop() # If no string values match, remove it from path
 
-def file(file): # function for opening the file. Turned into a function for unit testing purposes
-  file = open(file, 'r')
-  lines = file.readlines()
-  return lines
-
-lines = file("dictionary.txt") # Using the file function to read the file.
-
-while True:
-  start = input("Enter start word:") # User's starting word
-  target = input("Enter target word:") # User's finishing word
+while True: # This is used or checking if the users input is correct
+  start = input("Enter start word:")
+  target = input("Enter target word:")
   words = []
-  for line in lines:
-    word = line.rstrip() # strips the words in teh dictionary of whitespace etc
-    if len(word) == len(start):
-      words.append(word) # Appends the stripped word into the words array if starting word has the same length as it.
+  if start.isnumeric() or target.isnumeric(): # Checks if user's input is numerical
+    print("You cannot compare with integers")
+    continue
+  if start == '' or target == '': #Checks if user's input is empty
+    print("Please make sure all inputs are filled")
+    continue
+  if len(start) == len(target): #Checks if user's input is the same length
+    for line in lines:
+      word = line.rstrip()
+      if len(word) == len(start):
+        words.append(word)
+      break
+  else:
+    print("Error: Word sizes dont match")
 
-  break
 
 count = 0
-path = [start]
-seen = {start : True}
+path = [start] #The starting word used to create the list of words
+seen = {start : True} #The dictionary key, value stored if it is True
 if find(start, words, seen, target, path):  # Shows the total number of words used and the words used to change your start word to the target word.
   path.append(target)
   print(len(path) - 1, path)
