@@ -36,13 +36,17 @@ def find(word, words, seen, target, path): # Function for checking if letters in
     path.pop() # If no string values match, remove it from path
 
 while True: # This is used or checking if the users input is correct
-  start = input("Enter start word:")
-  target = input("Enter target word:")
+  start = input("Enter start word:") # Initilizing word
+  target = input("Enter target word:") # finalized word
+  remove = input("Removed a word:") # word you want removed
   words = []
-  if start.isnumeric() or target.isnumeric(): # Checks if user's input is numerical
+  if remove == start or remove == target: # Makes sure your chosen start or target word aren't chosen to be removed
+    print("You can't choose one of the chosen words as a word to remove. Please try again")
+    continue
+  if start.isnumeric() or target.isnumeric() or remove.isnumeric(): # Checks if user's input is numerical
     print("You cannot compare with integers")
     continue
-  if start == '' or target == '': #Checks if user's input is empty
+  if start == '' or target == '' or remove == '': #Checks if user's input is empty
     print("Please make sure all inputs are filled")
     continue
   if len(start) == len(target): #Checks if user's input is the same length
@@ -55,12 +59,22 @@ while True: # This is used or checking if the users input is correct
     print("Error: Word sizes dont match")
 
 
-count = 0
-path = [start] #The starting word used to create the list of words
-seen = {start : True} #The dictionary key, value stored if it is True
+
+path = [start]  # The starting word used to create the list of words
+seen = {start: True}  # The dictionary key, value stored if it is True
+
 if find(start, words, seen, target, path):  # Shows the total number of words used and the words used to change your start word to the target word.
   path.append(target)
-  print(len(path) - 1, path)
 else:
   print("No path found")
 
+def wordRemove(path, word): # This function removes words from the list fo words
+  if word in path != path[0]:
+    path.remove(word)
+    return"Your word has been removed"
+  else:
+    return"Your word was not in the path"
+
+
+
+print(wordRemove(path, remove) + "\n","Path count :", (len(path) - 1), "\n", "Words in Path:" + str(path))
