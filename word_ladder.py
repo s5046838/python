@@ -1,7 +1,14 @@
 import re # Re is a module for string searching
 
-def same(item, target):
-  return len([c for (c, t) in zip(item, target) if c == t]) # checks tuples and uses the zip function to return the list of tuples
+def file(file): # function for opening the file. Turned into a function for unit testing purposes
+  file = open(file, 'r')
+  lines = file.readlines()
+  return lines
+
+lines = file("dictionary.txt") # Using the file function to read the file.
+
+def same(item, target):# checks tuples and uses the zip function to return the list of tuples
+  return len([x for (x, y) in zip(item, target) if x == y]) # Returns items that are identical in the same position in the list
 
 def build(pattern, words, seen, list):
   return [word for word in words
@@ -11,10 +18,10 @@ def build(pattern, words, seen, list):
 def find(word, words, seen, target, path): # Function for checking if letters in the appended list match
   list = []
   for i in range(len(word)):
-    list += build(word[:i] + "." + word[i + 1:], words, seen, list) # Checks how many letters in the word are being checked
-  if len(list) == 0:
-    return False
-  list = sorted([(same(w, target), w) for w in list]) # Goes through the list of tuples in ascending order
+    list += build(word[:i] + "." + word[i + 1:], words, seen, list) # Checks how many letters in the word are being checked using the build function
+    if len(list) == 2: #Checks if the length of the list is equal to 2
+        return False
+  list = sorted([(same(item, target), item) for item in list]) # Goes through the list of tuples in ascending order
   list.reverse() #Goes through and checks the list in reverse
   for (match, item) in list:
     if match >= len(target) - 1: # checks if match is either greater or equal than the len target minus one character
@@ -27,13 +34,6 @@ def find(word, words, seen, target, path): # Function for checking if letters in
     if find(item, words, seen, target, path): # if any string values are found to match return true
       return True
     path.pop() # If no string values match, remove it from path
-
-def file(file): # function for opening the file. Turned into a function for unit testing purposes
-  file = open(file, 'r')
-  lines = file.readlines()
-  return lines
-
-lines = file("dictionary.txt") # Using the file function to read the file.
 
 while True: # This is used or checking if the users input is correct
   start = input("Enter start word:")
