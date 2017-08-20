@@ -47,14 +47,14 @@ while True: # This is used or checking if the users input is correct
   if remove == start or remove == target: # Makes sure your chosen start or target word aren't chosen to be removed
     print("You can't choose one of the chosen words as a word to remove. Please try again")
     continue
-  if longest != ("n","N","Y","y"):
-    print("Enter a valid input")
-    continue
-  if start.isnumeric() or target.isnumeric() or remove.isnumeric() or longest.isnumeric(): # Checks if user's input is numerical
+  if start.isnumeric() or target.isnumeric() or remove.isnumeric(): # Checks if user's input is numerical
     print("You cannot compare with integers")
     continue
-  if start == '' or target == '' or remove == '' or longest =='': #Checks if user's input is empty
+  if start == '' or target == '' or remove == '': #Checks if user's input is empty
     print("Please make sure all inputs are filled")
+    continue
+  if longest not in ("n","y"):
+    print("Enter a valid input")
     continue
   if len(start) == len(target): #Checks if user's input is the same length
     for line in lines:
