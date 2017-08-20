@@ -20,9 +20,12 @@ def find(word, words, seen, target, path): # Function for checking if letters in
   for i in range(len(word)):
     list += build(word[:i] + "." + word[i + 1:], words, seen, list) # Checks how many letters in the word are being checked using the build function
     if len(list) == 2: #Checks if the length of the list is equal to 2
-        return False
-  list = sorted([(same(item, target), item) for item in list]) # Goes through the list of tuples in ascending order
-  list.reverse() #Goes through and checks the list in reverse
+          return False
+  if longest == 'n' or longest == 'n': #Checks if the user doesn't want to go the longer route
+    list = sorted([(same(item, target), item) for item in list]) # Goes through the list of tuples in ascending order
+    list.reverse() #Goes through and checks the list in reverse
+  if longest == 'y' or longest == 'Y': #Checks if the user wants to go the longer route
+    list = sorted([(same(item, target), item) for item in list]) # Goes through the list of tuples in ascending order
   for (match, item) in list:
     if match >= len(target) - 1: # checks if match is either greater or equal than the len target minus one character
       if match == len(target) - 1: # Checks if match length is the same and appents item into path and returns true.
@@ -39,6 +42,7 @@ while True: # This is used or checking if the users input is correct
   start = input("Enter start word:") # Initilizing word
   target = input("Enter target word:") # finalized word
   remove = input("Removed a word:") # word you want removed
+  longest = input("Take the longest path? : Enter y or n:")# take the longest route
   words = []
   if remove == start or remove == target: # Makes sure your chosen start or target word aren't chosen to be removed
     print("You can't choose one of the chosen words as a word to remove. Please try again")
@@ -48,6 +52,9 @@ while True: # This is used or checking if the users input is correct
     continue
   if start == '' or target == '' or remove == '': #Checks if user's input is empty
     print("Please make sure all inputs are filled")
+    continue
+  if longest not in ("n","y"):
+    print("Enter a valid input")
     continue
   if len(start) == len(target): #Checks if user's input is the same length
     for line in lines:
@@ -78,4 +85,3 @@ def wordRemove(path, word): # This function removes words from the list fo words
 
 
 print(wordRemove(path, remove) + "\n","Path count :", (len(path) - 1), "\n", "Words in Path:" + str(path))
-print(start, words, seen, target, path)
