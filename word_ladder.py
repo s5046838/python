@@ -78,3 +78,4 @@ def wordRemove(path, word): # This function removes words from the list fo words
 
 
 print(wordRemove(path, remove) + "\n","Path count :", (len(path) - 1), "\n", "Words in Path:" + str(path))
+print(start, words, seen, target, path)
